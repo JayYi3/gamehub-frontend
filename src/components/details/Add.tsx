@@ -35,17 +35,20 @@ export default function Add() {
 
     try {
       console.log(id, user.id, comment, rate);
-      const reponse = await fetch(`http://localhost:8080/api/reviews/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameId: id,
-          userId: user.id,
-          comment: comment,
-          rating: rate,
-          postedDate: new Date(),
-        }),
-      });
+      const reponse = await fetch(
+        `https://backend-production-6194.up.railway.app/api/reviews/add`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            gameId: id,
+            userId: user.id,
+            comment: comment,
+            rating: rate,
+            postedDate: new Date(),
+          }),
+        }
+      );
       if (!reponse.ok) {
         throw new Error("Comment failed!");
       }

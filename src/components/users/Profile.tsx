@@ -25,10 +25,12 @@ export default function Profile() {
     const fetchData = async () => {
       try {
         const resReviews = await fetch(
-          `http://localhost:8080/api/reviews/user/${user.id}`
+          `https://backend-production-6194.up.railway.app/api/reviews/user/${user.id}`
         );
         const dataReviews = await resReviews.json();
-        const resGames = await fetch(`http://localhost:8080/api/games`);
+        const resGames = await fetch(
+          `https://backend-production-6194.up.railway.app/api/games`
+        );
         const dataGames = await resGames.json();
         setGames(dataGames);
         // sort reviews by date in descending order

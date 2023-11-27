@@ -2,17 +2,14 @@ import Footer from "../components/shared/Footer";
 import Header from "../components/shared/Header";
 import { useState, useEffect } from "react";
 
-import {
-  MDBRow,
-  MDBCol,
-} from "mdb-react-ui-kit";
+import { MDBRow, MDBCol } from "mdb-react-ui-kit";
 import RecGameCard from "../components/shared/RecGameCard";
 
 export default function Games() {
   const [games, setGames] = useState<any>([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/games")
+    fetch("https://backend-production-6194.up.railway.app/api/games")
       .then((res) => res.json())
       .then((data) => setGames(data))
       .catch((err) => console.log(err));

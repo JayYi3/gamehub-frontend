@@ -10,7 +10,9 @@ export default function Search() {
   const [games, setGames] = useState<any>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/games/search?name=${query}`)
+    fetch(
+      `https://backend-production-6194.up.railway.app/api/games/search?name=${query}`
+    )
       .then((res) => res.json())
       .then((data) => setGames(data))
       .catch((err) => console.log(err));

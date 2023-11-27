@@ -18,18 +18,20 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resGame = await fetch(`http://localhost:8080/api/games/${id}`);
+        const resGame = await fetch(
+          `https://backend-production-6194.up.railway.app/api/games/${id}`
+        );
         const dataGame = await resGame.json();
         setGame(dataGame);
 
         const resReviews = await fetch(
-          `http://localhost:8080/api/reviews/game/${id}`
+          `https://backend-production-6194.up.railway.app/api/reviews/game/${id}`
         );
         const dataReviews = await resReviews.json();
         setReviews(dataReviews);
 
         const resDiscussions = await fetch(
-          `http://localhost:8080/api/discussions/game/${id}`
+          `https://backend-production-6194.up.railway.app/api/discussions/game/${id}`
         );
         const dataDiscussions = await resDiscussions.json();
         setDiscussions(dataDiscussions);

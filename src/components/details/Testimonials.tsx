@@ -16,7 +16,7 @@ export default function Testimonials() {
     const fetchReviews = async () => {
       try {
         const reponse = await fetch(
-          `http://localhost:8080/api/reviews/game/${id}`
+          `https://backend-production-6194.up.railway.app/api/reviews/game/${id}`
         );
         if (!reponse.ok) {
           throw new Error("Fetch reviews failed!");
@@ -30,7 +30,7 @@ export default function Testimonials() {
         const reviewsWithUser = await Promise.all(
           reviews.map(async (review: any) => {
             const userReponse = await fetch(
-              `http://localhost:8080/api/users/${review.userId}`
+              `https://backend-production-6194.up.railway.app/api/users/${review.userId}`
             );
             if (!userReponse.ok) {
               throw new Error("Fetch user failed!");

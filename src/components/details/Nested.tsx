@@ -49,17 +49,20 @@ export default function Nested() {
 
     try {
       console.log(id, user.id, content);
-      const reponse = await fetch(`http://localhost:8080/api/discussions/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameId: id,
-          userId: user.id,
-          username: user.username,
-		  avatar: user.avatar,
-          content: content,
-        }),
-      });
+      const reponse = await fetch(
+        `https://backend-production-6194.up.railway.app/api/discussions/add`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            gameId: id,
+            userId: user.id,
+            username: user.username,
+            avatar: user.avatar,
+            content: content,
+          }),
+        }
+      );
       if (!reponse.ok) {
         throw new Error("Comment failed!");
       }
@@ -87,22 +90,24 @@ export default function Nested() {
       alert("Please fill in all fields.");
       return;
     }
-    
 
     try {
       console.log(activeDiscussionId, user.id, replycontent);
-      const reponse = await fetch(`http://localhost:8080/api/discussions/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameId: id,
-          userId: user.id,
-          username: user.username,
-          avatar: user.avatar,
-          content: replycontent,
-          parentId: activeDiscussionId,
-        }),
-      });
+      const reponse = await fetch(
+        `https://backend-production-6194.up.railway.app/api/discussions/add`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            gameId: id,
+            userId: user.id,
+            username: user.username,
+            avatar: user.avatar,
+            content: replycontent,
+            parentId: activeDiscussionId,
+          }),
+        }
+      );
       if (!reponse.ok) {
         throw new Error("Reply failed!");
       }
@@ -124,7 +129,7 @@ export default function Nested() {
     const fetchDiscussions = async () => {
       try {
         const reponse = await fetch(
-          `http://localhost:8080/api/discussions/game/${id}`
+          `https://backend-production-6194.up.railway.app/api/discussions/game/${id}`
         );
         if (!reponse.ok) {
           throw new Error("Fetch discussions failed!");
@@ -138,7 +143,7 @@ export default function Nested() {
         const discussionsWithReplies = await Promise.all(
           discussions.map(async (discussion: any) => {
             const repliesReponse = await fetch(
-              `http://localhost:8080/api/discussions/replies/${discussion.id}`
+              `https://backend-production-6194.up.railway.app/api/discussions/replies/${discussion.id}`
             );
             if (!repliesReponse.ok) {
               throw new Error("Fetch replies failed!");
@@ -163,7 +168,6 @@ export default function Nested() {
     <MDBContainer className="py-5" style={{ maxWidth: "3000px" }}>
       <MDBRow className="justify-content-center">
         <MDBCol md="12" lg="10" xl="8">
-
           <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
             <MDBModalDialog>
               <MDBModalContent>
@@ -199,7 +203,11 @@ export default function Nested() {
             <div className="d-flex flex-start w-100">
               <MDBCardImage
                 className="rounded-circle shadow-1-strong me-3"
-                src={user.avatar ? user.avatar : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp"}
+                src={
+                  user.avatar
+                    ? user.avatar
+                    : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp"
+                }
                 alt="avatar"
                 width="40"
                 height="40"
@@ -226,70 +234,85 @@ export default function Nested() {
 
           {
             // filter discussions without parent
-            
 
-          discussions.filter((d: any) => !d.parentId).map((discussion: any) => {
-            return (
-              console.log(discussion),
-              <div className="d-flex flex-start">
-                <MDBCardImage
-                  className="rounded-circle shadow-1-strong me-3"
-                  src={discussion.avatar ? discussion.avatar : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp"}
-                  alt="avatar"
-                  width="50"
-                  height="50"
-                />
+            discussions
+              .filter((d: any) => !d.parentId)
+              .map((discussion: any) => {
+                return (
+                  console.log(discussion),
+                  (
+                    <div className="d-flex flex-start">
+                      <MDBCardImage
+                        className="rounded-circle shadow-1-strong me-3"
+                        src={
+                          discussion.avatar
+                            ? discussion.avatar
+                            : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp"
+                        }
+                        alt="avatar"
+                        width="50"
+                        height="50"
+                      />
 
-                <div className="flex-grow-1 flex-shrink-1 mb-4">
-                  <div>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <p className="fw-bold mb-0">
-                        {discussion.username}{" "}
-                        <small className="text-muted">
-                          {discussion.postedDate}{" "}
-                        </small>
-                      </p>
-                      <a href="#!" onClick={() => toggleOpen(discussion.id)}>
-                        <MDBIcon fas icon="reply fa-xs" />
-                        <span className="small"> reply</span>
-                      </a>
-                    </div>
-                    <p className="small mt-2">{discussion.content}</p>
-                  </div>
-
-                  {discussion.replies.map((reply: any) => {
-                    return (
-                      <div className="d-flex flex-start mt-4">
-                        <a className="me-3" href="#">
-                          <MDBCardImage
-                            className="rounded-circle shadow-1-strong me-3"
-                            src={reply.avatar ? reply.avatar : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp"}
-                            alt="avatar"
-                            width="40"
-                            height="40"
-                          />
-                        </a>
-
-                        <div className="flex-grow-1 flex-shrink-1">
-                          <div>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <p className="fw-bold mb-1">
-                                {reply.username}{" "}
-                                <small className="text-muted">
-                                  {reply.postedDate}
-                                </small>
-                              </p>
-                            </div>
-                            <p className="small mb-0">{reply.content}</p>
+                      <div className="flex-grow-1 flex-shrink-1 mb-4">
+                        <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <p className="fw-bold mb-0">
+                              {discussion.username}{" "}
+                              <small className="text-muted">
+                                {discussion.postedDate}{" "}
+                              </small>
+                            </p>
+                            <a
+                              href="#!"
+                              onClick={() => toggleOpen(discussion.id)}
+                            >
+                              <MDBIcon fas icon="reply fa-xs" />
+                              <span className="small"> reply</span>
+                            </a>
                           </div>
+                          <p className="small mt-2">{discussion.content}</p>
                         </div>
+
+                        {discussion.replies.map((reply: any) => {
+                          return (
+                            <div className="d-flex flex-start mt-4">
+                              <a className="me-3" href="#">
+                                <MDBCardImage
+                                  className="rounded-circle shadow-1-strong me-3"
+                                  src={
+                                    reply.avatar
+                                      ? reply.avatar
+                                      : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp"
+                                  }
+                                  alt="avatar"
+                                  width="40"
+                                  height="40"
+                                />
+                              </a>
+
+                              <div className="flex-grow-1 flex-shrink-1">
+                                <div>
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <p className="fw-bold mb-1">
+                                      {reply.username}{" "}
+                                      <small className="text-muted">
+                                        {reply.postedDate}
+                                      </small>
+                                    </p>
+                                  </div>
+                                  <p className="small mb-0">{reply.content}</p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+                    </div>
+                  )
+                );
+              })
+          }
         </MDBCol>
       </MDBRow>
     </MDBContainer>
