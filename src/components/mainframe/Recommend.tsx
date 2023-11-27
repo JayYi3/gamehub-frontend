@@ -18,7 +18,7 @@ export default function Recommend() {
   };
 
   useEffect(() => {
-    fetch("http://backend.railway.internal/api/games")
+    fetch("http://backend-production-6194.up.railway.app/api/games")
       .then((res) => res.json())
       .then((data) => {
         setGames(shuffle(data));
