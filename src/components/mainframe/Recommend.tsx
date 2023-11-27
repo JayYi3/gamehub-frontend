@@ -18,7 +18,7 @@ export default function Recommend() {
   };
 
   useEffect(() => {
-    fetch("backend/api/games")
+    fetch("http://backend/api/games")
       .then((res) => res.json())
       .then((data) => {
         setGames(shuffle(data));
