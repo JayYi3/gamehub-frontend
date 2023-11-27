@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
-    "start": "vite"
+    "start": "npx http-server ./dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.2",
