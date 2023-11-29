@@ -33,7 +33,7 @@ export default function Header() {
       className="mb-3"
       expand="lg"
       light
-      style={{ backgroundColor: "orange" }}
+      style={{ backgroundColor: "#ededdd" }}
     >
       <MDBContainer fluid>
         <MDBNavbarBrand href="/">
