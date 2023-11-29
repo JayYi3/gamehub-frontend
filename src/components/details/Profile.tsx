@@ -81,7 +81,7 @@ const Profile: React.FC = () => {
                 </div>
                 <div>
                   <p className="small text-muted mb-1">Rating</p>
-                  <p className="mb-0">{avgRating}</p>
+                  <p className="mb-0">{Number(avgRating.toFixed(2))}</p>
                 </div>
               </div>
               <div>
