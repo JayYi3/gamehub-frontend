@@ -18,12 +18,33 @@ export default function Recommend() {
   };
 
   useEffect(() => {
-    fetch("https://backend-production-6194.up.railway.app/api/games")
-      .then((res) => res.json())
-      .then((data) => {
-        setGames(shuffle(data));
-      })
-      .catch((err) => console.log(err));
+    const fetchGamesAndRatings = async () => {
+      try {
+        const resGames = await fetch(
+          "https://backend-production-6194.up.railway.app/api/games"
+        );
+        const dataGames = await resGames.json();
+
+        const gamesWithRatingsPromises = dataGames.map(async (game: any) => {
+          const resReviews = await fetch(
+            `https://backend-production-6194.up.railway.app/api/reviews/game/${game.id}`
+          );
+          const reviews = await resReviews.json();
+          const avgRating =
+            reviews.reduce((acc: any, review: any) => acc + review.rating, 0) /
+            reviews.length;
+          return { ...game, avgRating: avgRating || 0 }; // Add default 0 rating in case there are no reviews
+        });
+
+        // Wait for all the reviews to be fetched and ratings to be calculated
+        const gamesWithRatings = await Promise.all(gamesWithRatingsPromises);
+        setGames(shuffle(gamesWithRatings));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchGamesAndRatings();
   }, []);
 
   return (
@@ -37,6 +58,7 @@ export default function Recommend() {
               image={game.image}
               description={game.description}
               id={game.id}
+              rating={game.avgRating}
             />
           </MDBCol>
         );
